@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templates/masterLayout.xhtml">
+    
+    <ui:param name="pageTitle" value="#{label['error']}" />
+
+    <div class="alert alert-warning" role="alert">
+        #{text['error.404']}
+    </div>
+
+</ui:composition>

@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<macker>
+    
+    <ruleset name="Layering rules">
+        <var name="base" value="com.example.myproject" />
+        
+        <pattern name="appl" class="${base}.**" />
+        <pattern name="common" class="${base}.common.**" />
+        <pattern name="persistence" class="${base}.persistence.**" />
+        <pattern name="business" class="${base}.business.**" />
+        <pattern name="web" class="${base}.web.**" />
+        
+        <!-- =============================================================== -->
+        <!-- Common -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>zugriff auf common; von überall gestattet</message>
+            <deny>
+                <to pattern="common" />
+                <allow>
+                    <from>
+                        <include pattern="appl" />
+                    </from>
+                </allow>
+            </deny>
+        </access-rule>
+        
+        <!-- =============================================================== -->
+        <!-- Persistence -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>zugriff auf persistence; von web und business gestattet</message>
+            <deny>
+                <to pattern="persistence" />
+                <allow>
+                    <from>
+                        <include pattern="persistence" />
+                        <include pattern="web" />
+                        <include pattern="business" />
+                    </from>
+                </allow>
+            </deny>
+        </access-rule>
+        
+        <!-- =============================================================== -->
+        <!-- Business -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>zugriff auf business; nur von web gestattet</message>
+            <deny>
+                <to pattern="business" />
+                <allow>
+                    <from>
+                        <include pattern="business" />
+                        <include pattern="web" />
+                    </from>
+                </allow>
+            </deny>
+        </access-rule>
+        
+        <!-- =============================================================== -->
+        <!-- Web -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>zugriff auf web; von nirgends gestattet</message>
+            <deny>
+                <to pattern="web" />
+                <allow>
+                    <from>
+                        <include pattern="web" />
+                    </from>
+                </allow>
+            </deny>
+        </access-rule>
+        
+        <!-- =============================================================== -->
+        <!-- Nicht erlaubte Libraries -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>verwenden des faces bean managers; nicht gestattet</message>
+            <deny>
+                <to>
+                    <include class="javax.faces.bean.**" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        <!-- =============================================================== -->
+        <!-- Libraries gebunden an ein spezifisches Modul -->
+        <!-- =============================================================== -->
+        <access-rule>
+            <message>nur in web erlaubt</message>
+            <deny>
+                <to>
+                    <include class="javax.faces.**" />
+                    <include class="javax.servlet.**" />
+                    <include class="javax.ws.*" />
+                    <include class="javax.enterprise.*" />
+                </to>
+                <allow>
+                    <from pattern="web" />
+                </allow>
+            </deny>
+        </access-rule>
+        
+        <access-rule>
+            <message>nur in business und persistence erlaubt</message>
+            <deny>
+                <to>
+                    <include class="javax.ejb.**" />
+                    <include class="java.sql.**" />
+                    <include class="javax.sql.**" />
+                    <include class="javax.persistence.**" />
+                </to>
+                <allow>
+                    <from>
+                        <include pattern="business" />
+                        <include pattern="persistence" />
+                    </from>
+                </allow>
+            </deny>
+        </access-rule>
+        
+    </ruleset>
+    
+</macker>
