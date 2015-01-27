@@ -47,6 +47,7 @@
         <maven-failsafe-plugin.version>2.17</maven-failsafe-plugin.version>
         <maven-source-plugin.version>2.4</maven-source-plugin.version>
         <maven-ear-plugin.version>2.10</maven-ear-plugin.version>
+        <maven-ejb-plugin.version>2.3</maven-ejb-plugin.version>
         <macker-maven-plugin.version>1.0.2</macker-maven-plugin.version>
         <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
     </properties>
@@ -117,6 +118,16 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${maven-ejb-plugin.version}</version>
+                    <configuration>
+                        <clientExcludes>
+                            <clientExclude>**/*Service.class</clientExclude>
+                        </clientExcludes>
+                    </configuration>
                 </plugin>
                 
                 <plugin>
